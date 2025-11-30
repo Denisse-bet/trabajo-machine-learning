@@ -1,0 +1,11 @@
+import weka.classifiers.trees.J48;
+public class ArbolDecision {
+    public static J48 entrenarArbol(String archivoArff) throws Exception {
+        DataSource source = new DataSource(archivoArff);
+        Instances data = source.getDataSet();
+        data.setClassIndex(data.numAttributes() - 1);
+        J48 tree = new J48();
+        tree.buildClassifier(data);
+        return tree;
+    }
+}

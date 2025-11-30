@@ -1,0 +1,27 @@
+            .sorted(Map.Entry.<Usuario, Double>comparingByValue().reversed())
+            .limit(K)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+        Map<Pelicula, Double> scores = new HashMap<>();
+        for (Usuario simUsuario : topK) {
+            double sim = similitudes.get(simUsuario);
+            for (Pelicula p : simUsuario.getHistorial()) {
+                if (!usuario.getHistorial().contains(p)) {
+                    scores.put(p, scores.getOrDefault(p, 0.0) + sim * obtenerRating(simUsuario, p));
+                }
+            }
+        }
+        return scores.entrySet().stream()
+            .sorted(Map.Entry.<Pelicula, Double>comparingByValue().reversed())
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+    }
+    private static double calcularSimilitudCoseno(Usuario u1, Usuario u2) {
+        // Implementar similitud coseno basada en ratings comunes
+        return 0.8; // Placeholder
+    }
+    private static double obtenerRating(Usuario u, Pelicula p) {
+        // Obtener rating del historial
+        return 4.0; // Placeholder
+    }
+}

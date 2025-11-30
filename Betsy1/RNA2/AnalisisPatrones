@@ -1,0 +1,9 @@
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
+public class AnalisisPatrones {
+    public static double calcularCorrelacion(List<Double> ratings1, List<Double> ratings2) {
+        PearsonsCorrelation corr = new PearsonsCorrelation();
+        double[] arr1 = ratings1.stream().mapToDouble(Double::doubleValue).toArray();
+        double[] arr2 = ratings2.stream().mapToDouble(Double::doubleValue).toArray();
+        return corr.correlation(arr1, arr2);
+    }
+}

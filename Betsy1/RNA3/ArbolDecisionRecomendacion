@@ -1,0 +1,33 @@
+public class ArbolDecisionRecomendacion {
+    private NodoDecision raiz;
+    
+    public static class NodoDecision {
+        private String atributo;
+        private double umbral;
+        private NodoDecision izquierdo;
+        private NodoDecision derecho;
+        private Recomendacion recomendacion;
+        
+        public Recomendacion predecir(Usuario usuario, Pelicula pelicula) {
+            if (esHoja()) {
+                return recomendacion;
+            }
+            
+            double valorAtributo = obtenerValorAtributo(usuario, pelicula, atributo);
+            
+            if (valorAtributo <= umbral) {
+                return izquierdo.predecir(usuario, pelicula);
+            } else {
+                return derecho.predecir(usuario, pelicula);
+            }
+        }
+        
+        private boolean esHoja() {
+            return izquierdo == null && derecho == null;
+        }
+    }
+    
+    public Recomendacion recomendar(Usuario usuario, Pelicula pelicula) {
+        return raiz.predecir(usuario, pelicula);
+    }
+}

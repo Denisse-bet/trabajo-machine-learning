@@ -1,0 +1,12 @@
+public class Pelicula {
+    private int id;
+    private String titulo;
+    private List<Genero> generos;
+    private List<String> actores;
+    private String director;
+    private int añoLanzamiento;
+    private double duracion;
+    private String paisOrigen;
+    private double calificacionPromedio;
+    private int numeroCalificaciones;
+}

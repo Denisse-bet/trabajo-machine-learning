@@ -1,0 +1,29 @@
+public class AnalizadorPatrones {
+    
+    public Map<String, Double> identificarCorrelaciones(List<Usuario> usuarios) {
+        Map<String, Double> correlaciones = new HashMap<>();
+        
+        // Correlación entre géneros
+        for (Genero gen1 : Genero.values()) {
+            for (Genero gen2 : Genero.values()) {
+                if (!gen1.equals(gen2)) {
+                    double correlacion = calcularCorrelacionGeneros(gen1, gen2, usuarios);
+                    correlaciones.put(gen1.name() + "_" + gen2.name(), correlacion);
+                }
+            }
+        }
+        
+        // Correlación edad-género
+        for (Genero genero : Genero.values()) {
+            double correlacionEdad = calcularCorrelacionEdadGenero(genero, usuarios);
+            correlaciones.put("EDAD_" + genero.name(), correlacionEdad);
+        }
+        
+        return correlaciones;
+    }
+    
+    private double calcularCorrelacionGeneros(Genero gen1, Genero gen2, List<Usuario> usuarios) {
+        // Implementación de cálculo de correlación
+        return 0.0; // Placeholder
+    }
+}

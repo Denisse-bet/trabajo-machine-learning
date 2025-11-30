@@ -1,0 +1,43 @@
+public class ProcesadorRecomendaciones {
+    
+    public List<Pelicula> generarRecomendacionesRecursivas(Usuario usuario, 
+                                                          List<Pelicula> candidatas, 
+                                                          int profundidad) {
+        if (profundidad <= 0 || candidatas.isEmpty()) {
+            return candidatas;
+        }
+        
+        List<Pelicula> recomendaciones = new ArrayList<>();
+        
+        // Filtrar por preferencias principales
+        List<Pelicula> filtradas = filtrarPorPreferencias(usuario, candidatas);
+        
+        if (filtradas.size() >= 10) {
+            // Si hay suficientes, continuar con el siguiente nivel
+            return generarRecomendacionesRecursivas(usuario, filtradas, profundidad - 1);
+        } else {
+            // Si no hay suficientes, expandir criterios
+            List<Pelicula> expandidas = expandirCriterios(usuario, candidatas);
+            recomendaciones.addAll(filtradas);
+            recomendaciones.addAll(
+                generarRecomendacionesRecursivas(usuario, expandidas, profundidad - 1)
+            );
+        }
+        
+        return recomendaciones.stream()
+            .distinct()
+            .limit(20)
+            .collect(Collectors.toList());
+    }
+    
+    private List<Pelicula> filtrarPorPreferencias(Usuario usuario, List<Pelicula> peliculas) {
+        return peliculas.stream()
+            .filter(p -> coincideConPreferencias(usuario, p))
+            .collect(Collectors.toList());
+    }
+    
+    private boolean coincideConPreferencias(Usuario usuario, Pelicula pelicula) {
+        // Lógica de filtrado por preferencias
+        return true; // Placeholder
+    }
+}

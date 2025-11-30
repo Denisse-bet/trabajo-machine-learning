@@ -1,0 +1,46 @@
+public class StreamFlixRecomendador {
+    private SistemaRecomendacion sistema;
+    private ArbolDecisionRecomendacion arbolDecision;
+    private ProcesadorRecomendaciones procesador;
+    
+    public void inicializarSistema() {
+        // Cargar datos
+        cargarDatosUsuarios();
+        cargarDatosPeliculas();
+        cargarHistorialVisualizaciones();
+        
+        // Entrenar modelos
+        entrenarModeloColaborativo();
+        entrenarArbolDecision();
+    }
+    
+    public List<Pelicula> generarRecomendacionesCompletas(int usuarioId) {
+        Usuario usuario = obtenerUsuario(usuarioId);
+        
+        // Combinar múltiples enfoques
+        List<Pelicula> recomendacionesColaborativas = 
+            sistema.recomendarPeliculas(usuarioId, 15);
+        
+        List<Pelicula> recomendacionesContenido = 
+            generarRecomendacionesPorContenido(usuario);
+        
+        List<Pelicula> recomendacionesContextuales = 
+            generarRecomendacionesContextuales(usuario);
+        
+        // Fusionar recomendaciones
+        return fusionarRecomendaciones(
+            recomendacionesColaborativas,
+            recomendacionesContenido,
+            recomendacionesContextuales
+        );
+    }
+    
+    private List<Pelicula> fusionarRecomendaciones(List<Pelicula>... listasRecomendaciones) {
+        // Implementar algoritmo de fusión
+        return Arrays.stream(listasRecomendaciones)
+            .flatMap(List::stream)
+            .distinct()
+            .limit(20)
+            .collect(Collectors.toList());
+    }
+}

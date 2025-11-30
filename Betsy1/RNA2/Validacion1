@@ -1,0 +1,10 @@
+import weka.classifiers.Evaluation;
+import weka.classifiers.trees.J48;
+import java.util.Random;
+public class Validacion1 {
+    public static void validarModelo(J48 model, Instances data) throws Exception {
+        Evaluation eval = new Evaluation(data);
+        eval.crossValidateModel(model, data, 5, new Random(1));
+        System.out.println("RMSE: " + eval.rootMeanSquaredError());
+    }
+}

@@ -1,0 +1,11 @@
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+@RestController
+public class RecomendacionController {
+    @GetMapping("/recomendaciones")
+    public List<Pelicula> obtenerRecomendaciones() {
+        // Llamar a tu lógica de recomendación, e.g., RecomendadorColaborativo.recomendar(...)
+        return List.of(new Pelicula(1, "Inception"), new Pelicula(2, "The Matrix"));
+    }
+}

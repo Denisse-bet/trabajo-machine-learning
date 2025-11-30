@@ -1,0 +1,64 @@
+public class SistemaRecomendacion {
+    private Map<Integer, Usuario> usuarios;
+    private Map<Integer, Pelicula> peliculas;
+    private Map<Integer, Map<Integer, Double>> matrizUsuarioPelicula;
+    
+    public List<Pelicula> recomendarPeliculas(int usuarioId, int numeroRecomendaciones) {
+        Usuario usuario = usuarios.get(usuarioId);
+        
+        // 1. Encontrar usuarios similares
+        List<UsuarioSimilar> usuariosSimilares = encontrarUsuariosSimilares(usuarioId);
+        
+        // 2. Predecir calificaciones para películas no vistas
+        Map<Integer, Double> predicciones = predecirCalificaciones(usuarioId, usuariosSimilares);
+        
+        // 3. Ordenar por predicción más alta
+        return predicciones.entrySet().stream()
+            .sorted(Map.Entry.<Integer, Double>comparingByValue().reversed())
+            .limit(numeroRecomendaciones)
+            .map(entry -> peliculas.get(entry.getKey()))
+            .collect(Collectors.toList());
+    }
+    
+    private List<UsuarioSimilar> encontrarUsuariosSimilares(int usuarioId) {
+        List<UsuarioSimilar> similares = new ArrayList<>();
+        Usuario usuarioObjetivo = usuarios.get(usuarioId);
+        
+        for (Usuario otroUsuario : usuarios.values()) {
+            if (otroUsuario.getId() != usuarioId) {
+                double similitud = calcularSimilitudCoseno(usuarioObjetivo, otroUsuario);
+                similares.add(new UsuarioSimilar(otroUsuario, similitud));
+            }
+        }
+        
+        return similares.stream()
+            .sorted(Comparator.comparing(UsuarioSimilar::getSimilitud).reversed())
+            .limit(50) // Top 50 usuarios más similares
+            .collect(Collectors.toList());
+    }
+    
+    private double calcularSimilitudCoseno(Usuario u1, Usuario u2) {
+        // Vector de calificaciones de usuarios
+        Map<Integer, Double> vector1 = obtenerVectorCalificaciones(u1);
+        Map<Integer, Double> vector2 = obtenerVectorCalificaciones(u2);
+        
+        // Calcular similitud coseno
+        double productoPunto = 0.0;
+        double magnitud1 = 0.0;
+        double magnitud2 = 0.0;
+        
+        for (Map.Entry<Integer, Double> entry : vector1.entrySet()) {
+            int peliculaId = entry.getKey();
+            if (vector2.containsKey(peliculaId)) {
+                productoPunto += entry.getValue() * vector2.get(peliculaId);
+            }
+            magnitud1 += Math.pow(entry.getValue(), 2);
+        }
+        
+        for (double valor : vector2.values()) {
+            magnitud2 += Math.pow(valor, 2);
+        }
+        
+        return productoPunto / (Math.sqrt(magnitud1) * Math.sqrt(magnitud2));
+    }
+}

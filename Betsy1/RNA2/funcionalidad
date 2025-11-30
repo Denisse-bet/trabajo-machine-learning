@@ -1,0 +1,68 @@
+// script.js - Funcionalidad para el sistema de recomendaciones
+
+// Función para cargar recomendaciones desde el backend
+async function cargarRecomendaciones(filtroGenero = '') {
+    try {
+        const response = await fetch(`/recomendaciones?genero=${filtroGenero}`);
+        if (!response.ok) throw new Error('Error al cargar recomendaciones');
+        const data = await response.json();
+        mostrarRecomendaciones(data);
+    } catch (error) {
+        console.error('Error:', error);
+        alert('No se pudieron cargar las recomendaciones. Intenta de nuevo.');
+    }
+}
+
+// Función para mostrar recomendaciones en la lista
+function mostrarRecomendaciones(peliculas) {
+    const lista = document.getElementById('lista-peliculas');
+    lista.innerHTML = ''; // Limpiar lista anterior
+    if (peliculas.length === 0) {
+        lista.innerHTML = '<li>No hay recomendaciones disponibles.</li>';
+        return;
+    }
+    peliculas.forEach(pelicula => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${pelicula.titulo} (Género: ${pelicula.generos ? pelicula.generos.join(', ') : 'N/A'})</span>
+            <button class="marcar-vista" data-id="${pelicula.id}">Marcar como Vista</button>
+        `;
+        lista.appendChild(li);
+    });
+    // Agregar event listeners a botones
+    document.querySelectorAll('.marcar-vista').forEach(btn => {
+        btn.addEventListener('click', manejarMarcarVista);
+    });
+}
+
+// Función para manejar clic en "Marcar como Vista" (envía feedback al backend)
+async function manejarMarcarVista(event) {
+    const peliculaId = event.target.getAttribute('data-id');
+    try {
+        const response = await fetch('/marcar-vista', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ peliculaId: parseInt(peliculaId), usuarioId: 1 }) // Asume usuario ID 1; ajusta dinámicamente
+        });
+        if (!response.ok) throw new Error('Error al marcar como vista');
+        alert('Película marcada como vista. Recomendaciones actualizadas.');
+        cargarRecomendaciones(); // Recargar para reflejar cambios
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al marcar como vista.');
+    }
+}
+
+// Event listeners para filtros y carga inicial
+document.getElementById('cargar-btn').addEventListener('click', () => {
+    const filtro = document.getElementById('genero-select').value;
+    cargarRecomendaciones(filtro);
+});
+
+document.getElementById('genero-select').addEventListener('change', () => {
+    const filtro = document.getElementById('genero-select').value;
+    cargarRecomendaciones(filtro);
+});
+
+// Carga inicial al cargar la página
+window.addEventListener('load', () => cargarRecomendaciones());

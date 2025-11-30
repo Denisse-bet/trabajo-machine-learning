@@ -1,0 +1,56 @@
+public class ValidadorModelo {
+    
+    public ResultadoValidacion validarCruzada(List<Usuario> usuarios, int pliegues) {
+        List<Double> precisiones = new ArrayList<>();
+        List<Double> coberturas = new ArrayList<>();
+        
+        // Dividir datos en pliegues
+        List<List<Usuario>> plieguesUsuarios = dividirEnPliegues(usuarios, pliegues);
+        
+        for (int i = 0; i < pliegues; i++) {
+            List<Usuario> entrenamiento = new ArrayList<>();
+            List<Usuario> prueba = new ArrayList<>();
+            
+            for (int j = 0; j < pliegues; j++) {
+                if (j == i) {
+                    prueba.addAll(plieguesUsuarios.get(j));
+                } else {
+                    entrenamiento.addAll(plieguesUsuarios.get(j));
+                }
+            }
+            
+            // Entrenar modelo
+            SistemaRecomendacion modelo = entrenarModelo(entrenamiento);
+            
+            // Evaluar modelo
+            Metricas metricas = evaluarModelo(modelo, prueba);
+            precisiones.add(metricas.getPrecision());
+            coberturas.add(metricas.getCobertura());
+        }
+        
+        return new ResultadoValidacion(
+            precisiones.stream().mapToDouble(Double::doubleValue).average().orElse(0.0),
+            coberturas.stream().mapToDouble(Double::doubleValue).average().orElse(0.0)
+        );
+    }
+    
+    private Metricas evaluarModelo(SistemaRecomendacion modelo, List<Usuario> usuariosPrueba) {
+        double precisionTotal = 0.0;
+        double coberturaTotal = 0.0;
+        int count = 0;
+        
+        for (Usuario usuario : usuariosPrueba) {
+            List<Pelicula> recomendaciones = modelo.recomendarPeliculas(usuario.getId(), 10);
+            List<Pelicula> relevantes = obtenerPeliculasRelevantes(usuario);
+            
+            double precision = calcularPrecision(recomendaciones, relevantes);
+            double cobertura = calcularCobertura(recomendaciones, relevantes);
+            
+            precisionTotal += precision;
+            coberturaTotal += cobertura;
+            count++;
+        }
+        
+        return new Metricas(precisionTotal / count, coberturaTotal / count);
+    }
+}

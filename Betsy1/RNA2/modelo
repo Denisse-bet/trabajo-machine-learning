@@ -1,0 +1,99 @@
+/* Reset básico para consistencia */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos globales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Fondo gris claro para bajo contraste energético */
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #007bff; /* Azul para branding */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2em;
+}
+
+/* Main content */
+main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Sección de recomendaciones */
+#recomendaciones {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+#recomendaciones h2 {
+    color: #007bff;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+/* Lista de películas */
+#lista-peliculas {
+    list-style-type: none;
+    padding: 0;
+}
+
+#lista-peliculas li {
+    background-color: #e9ecef;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 5px solid #007bff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animación sutil para interacción */
+}
+
+#lista-peliculas li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    main {
+        padding: 10px;
+    }
+    #recomendaciones {
+        padding: 15px;
+    }
+    #lista-peliculas li {
+        padding: 10px;
+    }
+}
+
+/* Accesibilidad: Enfoque en elementos interactivos */
+#lista-peliculas li:focus {
+    outline: 2px solid #007bff;
+}

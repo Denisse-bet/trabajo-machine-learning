@@ -1,0 +1,27 @@
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class RecomendacionController1 {
+    // Endpoint existente
+    @GetMapping("/recomendaciones")
+    public List<Pelicula> obtenerRecomendaciones(@RequestParam(required = false) String genero) {
+        // Filtrar por género si se proporciona
+        List<Pelicula> recomendaciones = // Llamar a lógica de recomendación
+        if (genero != null && !genero.isEmpty()) {
+            recomendaciones = recomendaciones.stream()
+                .filter(p -> p.getGeneros().contains(genero))
+                .collect(Collectors.toList());
+        }
+        return recomendaciones;
+    }
+
+    // Nuevo endpoint para marcar como vista
+    @PostMapping("/marcar-vista")
+    public ResponseEntity<String> marcarComoVista(@RequestBody Map<String, Object> payload) {
+        int peliculaId = (int) payload.get("peliculaId");
+        int usuarioId = (int) payload.get("usuarioId");
+        // Actualizar historial del usuario en la base de datos simulada
+        // e.g., usuario.getHistorial().add(pelicula);
+        return ResponseEntity.ok("Actualizado");
+    }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendaciones de Películas - StreamFlix</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlaza el CSS -->
+</head>
+<body>
+    <header>
+        <h1>Sistema de Recomendación de Películas</h1>
+        <p>Recomendaciones personalizadas basadas en tu historial.</p>
+    </header>
+    <main>
+        <section id="recomendaciones">
+            <h2>Tus Recomendaciones</h2>
+            <ul id="lista-peliculas"></ul>
+        </section>
+    </main>
+    <script>
+        // JavaScript para llamar al backend y mostrar recomendaciones
+        fetch('/recomendaciones')
+            .then(response => response.json())
+            .then(data => {
+                const lista = document.getElementById('lista-peliculas');
+                data.forEach(pelicula => {
+                    const li = document.createElement('li');
+                    li.textContent = `${pelicula.titulo} (ID: ${pelicula.id})`;
+                    lista.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

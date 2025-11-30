@@ -1,0 +1,14 @@
+public class Visualizacion {
+    private int usuarioId;
+    private int peliculaId;
+    private Date fechaVisualizacion;
+    private double porcentajeVisto;
+    private boolean completada;
+}
+
+public class Calificacion {
+    private int usuarioId;
+    private int peliculaId;
+    private double puntuacion; // 1-5
+    private Date fechaCalificacion;
+}

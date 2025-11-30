@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendaciones de Películas - StreamFlix</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Recomendación de Películas</h1>
+        <p>Recomendaciones personalizadas basadas en tu historial.</p>
+    </header>
+    <main>
+        <section id="filtros">
+            <label for="genero-select">Filtrar por género:</label>
+            <select id="genero-select">
+                <option value="">Todos</option>
+                <option value="Accion">Acción</option>
+                <option value="Drama">Drama</option>
+                <option value="Comedia">Comedia</option>
+            </select>
+            <button id="cargar-btn">Cargar Recomendaciones</button>
+        </section>
+        <section id="recomendaciones">
+            <h2>Tus Recomendaciones</h2>
+            <ul id="lista-peliculas"></ul>
+        </section>
+    </main>
+    <script src="script.js"></script> <!-- Enlaza el JS externo -->
+</body>
+</html>

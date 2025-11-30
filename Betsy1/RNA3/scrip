@@ -1,0 +1,463 @@
+// Datos de ejemplo para el sistema de recomendación
+const genres = [
+    "Acción", "Aventura", "Comedia", "Drama", "Ciencia Ficción", 
+    "Fantasía", "Terror", "Romance", "Suspenso", "Documental", 
+    "Animación", "Crimen", "Misterio", "Musical", "Histórico"
+];
+
+const actors = [
+    "Tom Hanks", "Meryl Streep", "Leonardo DiCaprio", "Jennifer Lawrence",
+    "Denzel Washington", "Scarlett Johansson", "Robert Downey Jr.", 
+    "Emma Stone", "Brad Pitt", "Angelina Jolie", "Johnny Depp",
+    "Natalie Portman", "Will Smith", "Margot Robbie", "Chris Hemsworth"
+];
+
+// Películas de ejemplo con datos
+const movies = [
+    {
+        id: 1,
+        title: "Inception",
+        year: 2010,
+        rating: 4.8,
+        genres: ["Acción", "Ciencia Ficción", "Suspenso"],
+        director: "Christopher Nolan",
+        actors: ["Leonardo DiCaprio", "Tom Hardy", "Ellen Page"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Un ladrón que roba secretos del subconsciente debe realizar la tarea imposible de plantar una idea en la mente de un objetivo."
+    },
+    {
+        id: 2,
+        title: "The Shawshank Redemption",
+        year: 1994,
+        rating: 4.9,
+        genres: ["Drama"],
+        director: "Frank Darabont",
+        actors: ["Tim Robbins", "Morgan Freeman"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Dos hombres encarcelados establecen un vínculo a lo largo de varios años, encontrando consuelo y eventual redención a través de actos de decencia común."
+    },
+    {
+        id: 3,
+        title: "The Dark Knight",
+        year: 2008,
+        rating: 4.8,
+        genres: ["Acción", "Crimen", "Drama"],
+        director: "Christopher Nolan",
+        actors: ["Christian Bale", "Heath Ledger", "Aaron Eckhart"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Batman se enfrenta al Joker, un criminal que siembra el caos en Gotham City."
+    },
+    {
+        id: 4,
+        title: "Pulp Fiction",
+        year: 1994,
+        rating: 4.7,
+        genres: ["Crimen", "Drama"],
+        director: "Quentin Tarantino",
+        actors: ["John Travolta", "Uma Thurman", "Samuel L. Jackson"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Las vidas de dos matones, un boxeador y un par de bandidos se entrelazan en cuatro historias de violencia y redención."
+    },
+    {
+        id: 5,
+        title: "Forrest Gump",
+        year: 1994,
+        rating: 4.7,
+        genres: ["Drama", "Romance"],
+        director: "Robert Zemeckis",
+        actors: ["Tom Hanks", "Robin Wright", "Gary Sinise"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "La historia de un hombre con un coeficiente intelectual bajo que logra lograr cosas increíbles a lo largo de su vida."
+    },
+    {
+        id: 6,
+        title: "The Matrix",
+        year: 1999,
+        rating: 4.6,
+        genres: ["Acción", "Ciencia Ficción"],
+        director: "The Wachowskis",
+        actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Un hacker descubre la verdad sobre su realidad y su papel en la guerra contra sus controladores."
+    },
+    {
+        id: 7,
+        title: "Goodfellas",
+        year: 1990,
+        rating: 4.7,
+        genres: ["Crimen", "Drama"],
+        director: "Martin Scorsese",
+        actors: ["Robert De Niro", "Ray Liotta", "Joe Pesci"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "La historia de Henry Hill y su vida en la mafia, cubriendo su relación con su esposa y sus compañeros mafiosos."
+    },
+    {
+        id: 8,
+        title: "The Lord of the Rings: The Fellowship of the Ring",
+        year: 2001,
+        rating: 4.8,
+        genres: ["Aventura", "Drama", "Fantasía"],
+        director: "Peter Jackson",
+        actors: ["Elijah Wood", "Ian McKellen", "Viggo Mortensen"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Un hobbit de la Comarca y ocho compañeros se embarcan en un viaje para destruir el poderoso Anillo Único y salvar la Tierra Media."
+    },
+    {
+        id: 9,
+        title: "Interstellar",
+        year: 2014,
+        rating: 4.7,
+        genres: ["Aventura", "Drama", "Ciencia Ficción"],
+        director: "Christopher Nolan",
+        actors: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Un equipo de exploradores viaja a través de un agujero de gusano en el espacio en un intento por asegurar la supervivencia de la humanidad."
+    },
+    {
+        id: 10,
+        title: "The Godfather",
+        year: 1972,
+        rating: 4.9,
+        genres: ["Crimen", "Drama"],
+        director: "Francis Ford Coppola",
+        actors: ["Marlon Brando", "Al Pacino", "James Caan"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "El patriarca envejecido de una dinastía del crimen organizado transfiere el control de su imperio clandestino a su hijo reacio."
+    },
+    {
+        id: 11,
+        title: "Fight Club",
+        year: 1999,
+        rating: 4.6,
+        genres: ["Drama"],
+        director: "David Fincher",
+        actors: ["Brad Pitt", "Edward Norton", "Helena Bonham Carter"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Un oficinista insomne y un fabricante de jabón forman un club de lucha clandestino que evoluciona hacia algo mucho más grande."
+    },
+    {
+        id: 12,
+        title: "Parasite",
+        year: 2019,
+        rating: 4.8,
+        genres: ["Comedia", "Drama", "Suspenso"],
+        director: "Bong Joon Ho",
+        actors: ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong"],
+        poster: "https://images.unsplash.com/photo-1489599809505-fb40ebc14d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        description: "Los miembros de una familia pobre conspiran para que ellos mismos sean empleados por una familia rica infiltrándose en su hogar."
+    }
+];
+
+// Inicialización cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar géneros y actores en los checkboxes
+    loadGenres();
+    loadActors();
+    
+    // Configurar eventos
+    document.getElementById('generate-btn').addEventListener('click', generateRecommendations);
+    
+    // Configurar scroll para el header
+    window.addEventListener('scroll', handleScroll);
+    
+    // Generar recomendaciones iniciales
+    setTimeout(generateRecommendations, 1000);
+});
+
+// Cargar géneros en los checkboxes
+function loadGenres() {
+    const genresContainer = document.getElementById('genres-container');
+    genres.forEach(genre => {
+        const checkboxItem = document.createElement('div');
+        checkboxItem.className = 'checkbox-item';
+        checkboxItem.innerHTML = `
+            <input type="checkbox" id="genre-${genre}" value="${genre}">
+            <label for="genre-${genre}">${genre}</label>
+        `;
+        genresContainer.appendChild(checkboxItem);
+    });
+}
+
+// Cargar actores en los checkboxes
+function loadActors() {
+    const actorsContainer = document.getElementById('actors-container');
+    actors.forEach(actor => {
+        const checkboxItem = document.createElement('div');
+        checkboxItem.className = 'checkbox-item';
+        checkboxItem.innerHTML = `
+            <input type="checkbox" id="actor-${actor}" value="${actor}">
+            <label for="actor-${actor}">${actor}</label>
+        `;
+        actorsContainer.appendChild(checkboxItem);
+    });
+}
+
+// Manejar el scroll para el header
+function handleScroll() {
+    const header = document.getElementById('header');
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+}
+
+// Generar recomendaciones basadas en las preferencias
+function generateRecommendations() {
+    // Mostrar indicador de carga
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const moviesGrid = document.getElementById('movies-grid');
+    
+    loadingIndicator.style.display = 'flex';
+    moviesGrid.innerHTML = '';
+    
+    // Simular procesamiento de IA
+    setTimeout(() => {
+        // Obtener preferencias del usuario
+        const userPreferences = getUserPreferences();
+        
+        // Generar recomendaciones (simulado)
+        const recommendedMovies = getRecommendedMovies(userPreferences);
+        
+        // Mostrar recomendaciones
+        displayMovies(recommendedMovies);
+        
+        // Ocultar indicador de carga
+        loadingIndicator.style.display = 'none';
+    }, 2000);
+}
+
+// Obtener preferencias del usuario desde los formularios
+function getUserPreferences() {
+    const age = parseInt(document.getElementById('age').value);
+    const country = document.getElementById('country').value;
+    const viewingTime = document.getElementById('viewing-time').value;
+    
+    // Obtener géneros seleccionados
+    const selectedGenres = [];
+    document.querySelectorAll('#genres-container input:checked').forEach(checkbox => {
+        selectedGenres.push(checkbox.value);
+    });
+    
+    // Obtener actores seleccionados
+    const selectedActors = [];
+    document.querySelectorAll('#actors-container input:checked').forEach(checkbox => {
+        selectedActors.push(checkbox.value);
+    });
+    
+    return {
+        age,
+        country,
+        viewingTime,
+        selectedGenres,
+        selectedActors
+    };
+}
+
+// Algoritmo de recomendación simulado
+function getRecommendedMovies(preferences) {
+    // Simular algoritmo de IA que filtra y ordena películas
+    let recommended = [...movies];
+    
+    // Filtrar por géneros si hay seleccionados
+    if (preferences.selectedGenres.length > 0) {
+        recommended = recommended.filter(movie => 
+            movie.genres.some(genre => preferences.selectedGenres.includes(genre))
+        );
+    }
+    
+    // Aplicar "puntuación de recomendación" basada en preferencias
+    recommended.forEach(movie => {
+        let score = movie.rating * 20; // Base score from rating
+        
+        // Aumentar puntuación si coincide con géneros seleccionados
+        preferences.selectedGenres.forEach(genre => {
+            if (movie.genres.includes(genre)) {
+                score += 10;
+            }
+        });
+        
+        // Aumentar puntuación si coincide con actores seleccionados
+        preferences.selectedActors.forEach(actor => {
+            if (movie.actors.includes(actor)) {
+                score += 15;
+            }
+        });
+        
+        // Ajustar según edad (películas más nuevas para usuarios más jóvenes)
+        const currentYear = new Date().getFullYear();
+        const movieAge = currentYear - movie.year;
+        
+        if (preferences.age < 30 && movieAge < 10) {
+            score += 5;
+        } else if (preferences.age >= 30 && movieAge >= 10) {
+            score += 5;
+        }
+        
+        // Ajustar según tiempo de visualización
+        if (preferences.viewingTime === 'low' && movie.rating > 4.5) {
+            score += 5; // Priorizar películas muy buenas para usuarios que ven poco
+        } else if (preferences.viewingTime === 'high') {
+            score += 3; // Usuarios que ven mucho pueden explorar más variedad
+        }
+        
+        movie.recommendationScore = Math.min(100, Math.round(score));
+    });
+    
+    // Ordenar por puntuación de recomendación
+    recommended.sort((a, b) => b.recommendationScore - a.recommendationScore);
+    
+    return recommended.slice(0, 8); // Devolver las 8 mejores
+}
+
+// Mostrar películas en la cuadrícula
+function displayMovies(moviesToDisplay) {
+    const moviesGrid = document.getElementById('movies-grid');
+    moviesGrid.innerHTML = '';
+    
+    if (moviesToDisplay.length === 0) {
+        moviesGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <h3>No se encontraron películas que coincidan con tus preferencias</h3>
+                <p>Intenta seleccionar más géneros o actores para obtener mejores recomendaciones.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    moviesToDisplay.forEach(movie => {
+        const movieCard = document.createElement('div');
+        movieCard.className = 'movie-card';
+        movieCard.innerHTML = `
+            <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+            <div class="movie-info">
+                <h3 class="movie-title">${movie.title} <span class="recommendation-score">${movie.recommendationScore}%</span></h3>
+                <div class="movie-meta">
+                    <span>${movie.year}</span>
+                    <div class="movie-rating">
+                        <span class="rating-star">★</span>
+                        <span>${movie.rating}</span>
+                    </div>
+                </div>
+                <div class="movie-genres">
+                    ${movie.genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('')}
+                </div>
+            </div>
+        `;
+        
+        // Añadir evento de clic para mostrar más detalles
+        movieCard.addEventListener('click', function() {
+            showMovieDetails(movie);
+        });
+        
+        moviesGrid.appendChild(movieCard);
+    });
+}
+
+// Mostrar detalles de la película
+function showMovieDetails(movie) {
+    // Crear modal para mostrar detalles
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    `;
+    
+    modal.innerHTML = `
+        <div style="background-color: var(--card-bg); padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">${movie.title}</h2>
+                <button id="close-modal" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer;">×</button>
+            </div>
+            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                <img src="${movie.poster}" alt="${movie.title}" style="width: 200px; height: 300px; object-fit: cover; border-radius: 8px;">
+                <div>
+                    <p><strong>Año:</strong> ${movie.year}</p>
+                    <p><strong>Director:</strong> ${movie.director}</p>
+                    <p><strong>Calificación:</strong> ${movie.rating}/5</p>
+                    <p><strong>Puntuación de recomendación:</strong> <span class="recommendation-score">${movie.recommendationScore}%</span></p>
+                    <div style="margin-top: 10px;">
+                        <strong>Géneros:</strong>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+                            ${movie.genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <strong>Actores:</strong>
+                <p>${movie.actors.join(', ')}</p>
+            </div>
+            <div>
+                <strong>Sinopsis:</strong>
+                <p>${movie.description}</p>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="btn" style="flex: 1;">Agregar a Mi Lista</button>
+                <button class="btn" style="flex: 1; background-color: #2d2d2d;">Ver Trailer</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Cerrar modal
+    document.getElementById('close-modal').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+    
+    // Cerrar modal al hacer clic fuera del contenido
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+// Navegación suave para enlaces internos
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            const headerHeight = document.getElementById('header').offsetHeight;
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Simular datos de métricas en tiempo real
+function updateMetrics() {
+    // Simular actualización de métricas
+    const metricValues = document.querySelectorAll('.metric-value');
+    
+    metricValues.forEach(metric => {
+        const currentValue = parseFloat(metric.textContent);
+        const variation = (Math.random() - 0.5) * 0.5; // Pequeña variación aleatoria
+        const newValue = Math.max(0, currentValue + variation);
+        
+        // Actualizar solo si hay un cambio significativo
+        if (Math.abs(variation) > 0.1) {
+            metric.textContent = newValue.toFixed(1) + (metric.textContent.includes('%') ? '%' : 's');
+        }
+    });
+}
+
+// Actualizar métricas cada 10 segundos
+setInterval(updateMetrics, 10000);

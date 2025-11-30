@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tu Red Convolucional - Cats vs Dogs</title>
+</head>
+<body>
+    <h1>Tu Modelo CNN - Clasificador</h1>
+    <p><strong>Arquitectura:</strong> 3 capas Conv2D + MaxPooling + 2 Dense</p>
+    <p><strong>Activaciones:</strong> ReLU + Sigmoid</p>
+    <p><strong>Dataset:</strong> TensorFlow Cats vs Dogs</p>
+    
+    <input type="file" id="upload">
+    <img id="preview" style="max-width:300px;">
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('preview').src = URL.createObjectURL(file);
+                document.getElementById('resultado').innerHTML = 
+                    "Imagen lista para predecir con tu red convolucional";
+            }
+        });
+    </script>
+</body>
+</html>

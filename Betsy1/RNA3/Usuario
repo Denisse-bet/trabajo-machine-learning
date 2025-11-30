@@ -1,0 +1,11 @@
+public class Usuario {
+    private int id;
+    private String nombre;
+    private int edad;
+    private String pais;
+    private List<Genero> generosPreferidos;
+    private List<Visualizacion> historialVisualizacion;
+    private List<Calificacion> calificaciones;
+    private List<String> actoresFavoritos;
+    private List<String> directoresFavoritos;
+}

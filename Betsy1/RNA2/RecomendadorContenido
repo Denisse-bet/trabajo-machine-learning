@@ -1,0 +1,19 @@
+public class RecomendadorContenido {
+    public static List<Pelicula> recomendar(Usuario usuario, List<Pelicula> todasPeliculas) {
+        Map<Pelicula, Double> similitudes = new HashMap<>();
+        for (Pelicula p : todasPeliculas) {
+            if (!usuario.getHistorial().contains(p)) {
+                double sim = calcularSimilitudCoseno(p.getCaracteristicas(), usuario.getPreferencias());
+                similitudes.put(p, sim);
+            }
+        }
+        return similitudes.entrySet().stream()
+            .sorted(Map.Entry.<Pelicula, Double>comparingByValue().reversed())
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+    }
+    private static double calcularSimilitudCoseno(Map<String, Double> v1, Map<String, Double> v2) {
+        // Implementar coseno
+        return 0.7; // Placeholder
+    }
+}

@@ -1,0 +1,13 @@
+import weka.classifiers.functions.Logistic;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
+public class AnalisisPreferencias {
+    public static Logistic entrenarModelo(String archivoArff) throws Exception {
+        DataSource source = new DataSource(archivoArff);
+        Instances data = source.getDataSet();
+        data.setClassIndex(data.numAttributes() - 1);
+        Logistic model = new Logistic();
+        model.buildClassifier(data);
+        return model;
+    }
+}

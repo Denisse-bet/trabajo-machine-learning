@@ -1,0 +1,23 @@
+public class Nodo {
+    private String valor;
+    private List<Nodo> hijos;
+    public Nodo(String valor) {
+        this.valor = valor;
+        this.hijos = new ArrayList<>();
+    }
+    public void agregarHijo(Nodo hijo) {
+        hijos.add(hijo);
+    }
+}
+public class EstructuraRecomendaciones {
+    public static void construirArbol(Nodo raiz, List<Pelicula> peliculas) {
+        if (peliculas.isEmpty()) return;
+        Map<String, List<Pelicula>> grupos = peliculas.stream()
+            .collect(Collectors.groupingBy(p -> p.getGeneros().get(0)));
+        for (Map.Entry<String, List<Pelicula>> entry : grupos.entrySet()) {
+            Nodo hijo = new Nodo(entry.getKey());
+            raiz.agregarHijo(hijo);
+            construirArbol(hijo, entry.getValue()); // Recursión
+        }
+    }
+}

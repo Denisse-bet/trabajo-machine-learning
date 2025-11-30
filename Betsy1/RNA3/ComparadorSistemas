@@ -1,0 +1,28 @@
+public class ComparadorSistemas {
+    
+    public ResultadoComparacion compararSistemas(SistemaRecomendacion nuevo, 
+                                                SistemaRecomendacion actual) {
+        ResultadoComparacion resultado = new ResultadoComparacion();
+        
+        // Datos de prueba
+        List<Usuario> usuariosPrueba = obtenerUsuariosPrueba();
+        
+        for (Usuario usuario : usuariosPrueba) {
+            // Recomendaciones del sistema actual
+            List<Pelicula> recomendacionesActual = actual.recomendarPeliculas(usuario.getId(), 10);
+            
+            // Recomendaciones del nuevo sistema
+            List<Pelicula> recomendacionesNuevo = nuevo.recomendarPeliculas(usuario.getId(), 10);
+            
+            // Calcular métricas
+            resultado.agregarMetricasUsuario(
+                calcularSatisfaccion(usuario, recomendacionesActual),
+                calcularSatisfaccion(usuario, recomendacionesNuevo),
+                calcularTiempoVisualizacion(recomendacionesActual),
+                calcularTiempoVisualizacion(recomendacionesNuevo)
+            );
+        }
+        
+        return resultado;
+    }
+}
